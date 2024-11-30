@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>医保欺诈预测系统</title>
+<link rel="stylesheet" href="../static/bootstrap-3.4.1-dist/css/bootstrap.min.css"><!--导入bootstrap-->
+<link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+<div class="header">
+    <span class="title"><a>医保欺诈预测系统</a></span>
+    <img src="../static/city.jpg" alt="城市图片" id="headerImage">
+</div>
+
+<div id="sidebar">
+    <nav>
+      <ul class="menu">
+        <li><span class="nav-item" data-content="file" id="fileProcessing"><a href="#!">选择文件</a></span></li>
+        <li><span class="nav-item" data-content="training" id="featureSelection"><a href="#!">模型训练</a></span></li>
+        <li><span class="nav-item" data-content="testing" id="modelTraining"><a href="#!">模型应用</a></span></li>
+      </ul>
+    </nav>
+  </div>
+<div id="content">
+    <div id="file-content" class="hidden" >
+                
+                <div id="region-content" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" onclick="clickHandler()">点击或拖拽文件到此处</div>
+                <div id="table-content" style="width: 100%; height: 500px; overflow: auto;">
+                    <table id="dynamic-table" border="1">
+                        <!-- 表格内容将在这里动态插入 -->
+                    </table>
+                </div>
+    </div>
+    
+    <div id="training-content" class="hidden">
+        <form id="form1" action="/submit" method="post">
+            <!-- 第一栏：占据 8 列 -->
+            <div class="col-md-8">
+                <label for="model_name">模型名称:</label>
+                <select id="model_name" name="model_name">
+                    <option value="lightGBM">lightGBM</option>
+                    <option value="随机森林">随机森林</option>
+                </select>
+                <br><br>
+                
+                <input type="checkbox" id="smote" name="smote" onchange="showSmoteSlider()"> smote
+                <div id="smote_slider" style="display:none;">
+                    <label for="smote_number">SMOTE比例:</label>
+                    <input type="range" id="smote_number" name="smote_number" min="0" max="1" step="0.1" value="0">
+                    <span id="smote_value">0</span>
+                </div>
+                <br><br>
+                
+                <input type="checkbox" id="pca" name="pca"> PCA
+                <br><br>
+                
+                <label for="test_sz">测试集比例:</label>
+                <input type="range" id="test_sz" name="test_sz" min="0" max="1" step="0.1" value="0.2">
+                <span id="test_sz_value">0.2</span>
+                <br><br>
+                
+                <textarea id="output" name="output" rows="10" cols="50" readonly></textarea>
+            </div>
+            
+            <!-- 第二栏：占据 4 列 -->
+            <div class="col-md-4">
+                <img id="confusion_matrix" src="../static/待生成混淆矩阵.png" alt="混淆矩阵">
+                <br><br>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+    <div id="testing-content" class="hidden">
+        <h2>模型应用</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-8">
+                    <div class="limit-div">
+                        <form id="modelInputForm" class="form-inline">
+                            <div class="form-group">
+                                <label for="model_name2">模型名称:</label>
+                                <select id="model_name2" name="model_name2" class="form-control">
+                                    <option value="lightGBM" selected>lightGBM</option>
+                                    <option value="随机森林">随机森林</option>
+                                </select>
+                            </div>
+                            <!-- 发生金额模块 -->
+                            <div class="border-box">
+                                <h3>发生金额</h3>
+                                <div class="form-group">
+                                    <label for="ALL_SUM">总金额</label>
+                                    <input type="text" class="form-control" id="ALL_SUM" name="ALL_SUM" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="药品费发生金额_SUM">药品费发生金额</label>
+                                    <input type="text" class="form-control" name="药品费发生金额_SUM" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="检查费发生金额_SUM">检查费发生金额</label>
+                                    <input type="text" class="form-control" name="检查费发生金额_SUM" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="治疗费发生金额_SUM">治疗费发生金额</label>
+                                    <input type="text" class="form-control" name="治疗费发生金额_SUM" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="手术费发生金额_SUM">手术费发生金额</label>
+                                    <input type="text" class="form-control" name="手术费发生金额_SUM" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="床位费发生金额_SUM">床位费发生金额</label>
+                                    <input type="text" class="form-control" name="床位费发生金额_SUM" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="医用材料发生金额_SUM">医用材料发生金额</label>
+                                    <input type="text" class="form-control" name="医用材料发生金额_SUM" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="其它发生金额_SUM">其它发生金额</label>
+                                    <input type="text" class="form-control" name="其它发生金额_SUM" >
+                                </div>
+                       
+                            
+                            </div>
+                            
+                            <!-- 占比模块 -->
+                            <div class="border-box">
+                                <h3>占比</h3>
+                                <div class="form-group">
+                                    <label for="药品在总金额中的占比">药品在总金额中的占比</label>
+                                    <input type="text" class="form-control" id="药品在总金额中的占比" name="药品在总金额中的占比" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="个人支付的药品占比">个人支付的药品占比</label>
+                                    <input type="text" class="form-control" id="个人支付的药品占比" name="个人支付的药品占比" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="检查总费用在总金额占比">检查总费用在总金额占比</label>
+                                    <input type="text" class="form-control" name="检查总费用在总金额占比" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="个人支付检查费用占比">个人支付检查费用占比</label>
+                                    <input type="text" class="form-control" name="个人支付检查费用占比" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="治疗费用在总金额占比">治疗费用在总金额占比</label>
+                                    <input type="text" class="form-control" name="治疗费用在总金额占比" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="个人支付治疗费用占比">个人支付治疗费用占比</label>
+                                    <input type="text" class="form-control" name="个人支付治疗费用占比" >
+                                </div>
+                            </div>
+                            
+                            <!-- 补助模块 -->
+                            <div class="border-box">
+                                    <h3>补助</h3>
+                                    <div class="form-group">
+                                        <label for="BZ_民政救助">BZ_民政救助</label>
+                                        <input type="text" class="form-control" id="BZ_民政救助" name="BZ_民政救助" >
+                                    </div>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <!-- 加载模型按钮 -->
+                    <button type="button" class="btn btn-primary btn-lg" onclick="loadModel()">加载模型</button>
+                    <div class="result-box" id="resultBox">
+                        结果将在这里显示
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+    
+</div>
+<!-- 表格控件的HTML模板 -->
+<script src="../static/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</body>
+</html>
+
+

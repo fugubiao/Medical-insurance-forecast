@@ -1,0 +1,9 @@
+main.py
+
+       --train_transe()	
+	路径是否存在
+	
+      --evaluation()
+
+       --display()
+

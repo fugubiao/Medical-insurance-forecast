@@ -1,0 +1,8 @@
+numpy>=1.19.5, <2.0
+pandas
+matplotlib
+seaborn
+imbalanced-learn
+scikit-learn
+lightgbm
+Flask

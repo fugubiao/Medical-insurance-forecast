@@ -1,0 +1,299 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.header {
+    position: relative;
+    overflow: hidden; /* 确保图片在容器内 */
+    background-color: #333;
+    transition: height 0.5s ease; /* 平滑过渡效果 */
+    height: 200px; /* 初始高度，根据需要调整 */
+}
+
+.header .title {
+    
+    position: absolute;
+    top: 0; /* 置于顶部 */
+    left: 0; /* 置于左侧 */
+    z-index: 10;
+    /*background-color: rgba(255, 255, 255, 0.7);*/ /* 确保标题可见 */
+    width: 100%; /* 宽度填满父容器 */
+    text-align: center; /* 文字居中 */
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+    padding: 10px 0;
+    
+}
+.header .title a{
+    font-size: 30px;
+    letter-spacing: 10px; /* 设置文字间距为10像素 */
+    color: rgb(31, 195, 181);
+    text-decoration: none;
+    transition: all 0.45s;
+    display: inline-block;
+    position: relative;
+}
+/*--------------------标题悬停效果-----------------------------------*/
+.header .title a:hover{
+    color: rgb(229, 105, 23); /* 文字变为红色 */
+    }
+.header .title a:hover::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px; /* 根据需要调整 */
+    height: 2px;
+    background: rgb(229, 112, 33);
+    animation: jump 0.45s infinite;
+        }
+@keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+.header img {
+    transition: transform 0.5s ease; /* 平滑过渡效果 */
+    width: 100%;
+    height: 100%; /* 图片填满父容器 */
+    object-fit: cover; /* 保持图片比例 */
+}
+.header span{
+    color: white;
+    font-size: 20px;
+}   
+/*---------------------------------------------------导航栏---------------------------------------------*/
+#sidebar {
+    background-color: #333;
+    overflow: hidden;
+}
+.menu{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    
+}
+.menu li{
+    margin-right: 100px; /* 添加右侧间距 */
+    width: 125px;
+    height: 50px;
+    transition: background-position-x 0.9s linear;
+    text-align: center;
+   
+}
+.menu li span{
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+}
+.menu li span:active {
+    background-color: #ddd;
+    color: black;
+}
+.menu li span a{
+    font-size: 22px;
+    color: rgb(31, 195, 181);
+    text-decoration: none;
+    transition: all 0.45s;
+    display: inline-block;
+    position: relative;
+}
+/*悬停hover*/
+.menu li span a:hover{
+    color: rgb(229, 112, 33); /* 文字变为红色 */
+    
+}
+
+/* -------------------------------为链接添加跳动效果 ------------------------------------*/
+.menu li span a:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px; /* 根据需要调整 */
+    height: 2px;
+    background: rgb(229, 112, 33);
+    animation: wave 0.45s infinite;
+}
+
+@keyframes wave {
+    0%, 100% { transform: scaleX(1); }
+    50% { transform: scaleX(1.5); }
+}
+/*----------------------------------------------------------------------------------------------*/
+/*文件处理*/
+/*
+.form-group { 选择文件 
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }*/
+
+/*---------------------------------------------------选择文件---------------------------------------------*/
+#content {
+    width: 100%;
+    padding: 20px;
+    color: #8fb1ff;
+}
+.hidden {
+    display: none;
+}
+#region-content {/*选择文件区域效果*/
+    /*margin-top: 150px;
+    margin-left: 20px;*/
+
+    /*设置在容器正中间-首*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*设置在容器正中间-尾*/
+    width: 300px;
+    height: 200px;
+    border: 2px dashed #ccc;
+    text-align: center;
+    line-height: 200px;
+    font-size: 20px;
+    cursor: pointer;
+
+
+    
+ 
+}
+.success {
+    color: green; /* 设置文本颜色为绿色 */
+    /* 添加其他成功样式 */
+}
+/*表格样式*/
+table {
+    border-collapse: collapse; /* 折叠边框 */
+    width: 100%; /* 表格宽度 */
+}
+th, td {
+    border: 1px solid black; /* 单元格边框 */
+    padding: 8px; /* 单元格内边距 */
+    text-align: left; /* 文本对齐方式 */
+}
+th {
+    background-color: #f2f2f2; /* 表头背景色 */
+}
+/*表格限制大小，超出滚动条显示*/
+/* 自定义滚动条样式 */
+#table-content::-webkit-scrollbar {
+    width: 12px; /* 滚动条的宽度 */
+}
+
+#table-content::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1; /* 滚动条滑块的颜色 */
+    border-radius: 6px; /* 滑块的圆角 */
+}
+
+#table-content::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* 滚动条轨道的颜色 */
+}
+
+/* 针对 Firefox 的滚动条样式 */
+#table-content {
+    scrollbar-width: thin; /* 设置滚动条的宽度为细 */
+    scrollbar-color: #c1c1c1 #f1f1f1; /* 设置滚动条的颜色和背景色 */
+}
+/*---------------------------------------下面是 模型训练 模块的样式--------使用了bootstrap-----------------------------*/
+
+
+label {
+    margin-top: 10px;
+}
+
+input[type="submit"] {
+    background-color: #337ab7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #286090;
+}
+
+#smote_slider, #test_sz_value {
+    margin-top: 10px;
+}
+
+textarea#output {/*输出区域*/
+    width: 100%;
+    box-sizing: border-box; /* 所以宽度包括填充和边框 */
+}
+#confusion_matrix {
+    width: 80%; /* 设置图片宽度为父元素宽度的30% */
+    height: auto; /* 设置图片高度自动，保持图片的原始宽高比 */
+    margin: 0 auto; /* 上下边距设为0，左边距设为自动，实现水平居中 */
+    display: block; /* 将图片设置为块级元素，以便应用水平居中的样式 */
+}
+/*表单input按钮*/
+input {
+    display: block;
+    margin: 0 auto;}
+/*----------------------------------------------模型测试--------------------------------------------------------*/
+/*模型训练与测试*/
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.option-section {
+    margin-bottom: 20px;
+}
+.option-section label {
+    display: block;
+    margin-bottom: 5px;
+}
+.slider {
+    width: 100%;
+}
+ /* 自定义样式 */
+ .border-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.result-box {
+    height: 300px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+    overflow: auto; /* 添加滚动条 */
+}
+.limit-div {
+    height: 600px; /* 设置容器高度 */
+    width: 100%;
+    overflow: auto; /* 设置滚动条 */
+    border: 1px solid #ccc; /* 可选：添加边框样式 */
+}
+.limit-div #modelInputForm .form-group {width: 100%;}
+.limit-div #modelInputForm .form-group  label{ width: 40%};/*固定label宽度比例*/
+
+#modelInputForm {
+    height: 600px; /* 设置表单高度 */
+    width: 100%;
+    overflow: auto; /* 设置滚动条 */
+    border: 1px solid #ccc; /* 可选：添加边框样式 */
+    padding: 10px; /* 可选：添加内边距 */
+}
+.btn-primary {
+    margin-top: 20px; /* 为按钮添加上边距 */
+}
+
